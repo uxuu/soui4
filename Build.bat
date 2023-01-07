@@ -59,6 +59,11 @@ if exist "%strCMD%" (
 	for /f "delims=" %%i in ('"%strCMD%" -nologo -version !verSion! -prerelease -property installationPath -format value') do (
 		set vs2019path=%%i
 	)
+	if "!vs2019path!" == "" (
+		for /f "delims=" %%i in ('"%strCMD%" -nologo -products Microsoft.VisualStudio.Product.BuildTools -version !verSion! -prerelease -property installationPath -format value') do (
+			set vs2019path=%%i
+		)
+	)
 )
 
 
