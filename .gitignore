@@ -47,3 +47,8 @@ Ankh.NoLoad
 
 #Soui
 demos
+
+/build*.bat
+/build/
+/build64/
+/build64a/
