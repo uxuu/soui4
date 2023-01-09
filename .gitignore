@@ -21,8 +21,11 @@
 *.log
 *.sbr
 *.sdf
+*.sln
 *.opensdf
 *.unsuccessfulbuild
+*.vcxproj
+*.vcxproj.filters
 ipch/
 obj/
 [Ll]ib
@@ -31,6 +34,8 @@ obj/
 [Bb]in64a
 [Dd]ebug*/
 [Rr]elease*/
+[Cc]onfig/*.h
+[Cc]onfig/*.cfg
 Ankh.NoLoad
 *.VC.db
 *.h.cpp
@@ -44,6 +49,7 @@ Ankh.NoLoad
 
 #Visual Studio Code files
 .vscode/
+.vs/
 
 #Soui
 demos
