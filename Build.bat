@@ -244,6 +244,9 @@ if %dynamicsoui%==1 (
 )
 rem 参数配置完成
 
+echo set build_vsvarbat=%vsvarbat% >build-env.bat
+echo set build_specs=%specs% >>build-env.bat
+
 if %specs%==win32-msvc2017 (	
 	tools\qmake2017 -tp vc -r -spec .\tools\mkspecs\%specs% "CONFIG += %cfg%"
 	if %targetx86andx64%==1 (
