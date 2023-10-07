@@ -2,6 +2,7 @@ TEMPLATE = subdirs
 TARGET = components
 CONFIG(x64){
 TARGET = $$TARGET"64"
+X64=64
 }
 DEPENDPATH += .
 INCLUDEPATH += .
@@ -22,13 +23,13 @@ SUBDIRS += TaskLoop
 SUBDIRS += SIpcObject
 SUBDIRS += httpclient
 
-imgdecoder-png.depends += zlib png
-render-skia.depends += skia
-render-d2d.depends += utilities4
-resprovider-zip.depends += zlib utilities4
-translator.depends += utilities4
-resprovider-7zip.depends += 7z utilities4
-ScriptModule-LUA.depends += soui4 lua-54
-TaskLoop.depends += utilities4
-SIpcObject.depends += utilities4
-httpclient.depends += utilities4
+imgdecoder-png.depends += zlib$$X64 png$$X64
+render-skia.depends += skia$$X64
+render-d2d.depends += utilities4$$X64
+resprovider-zip.depends += zlib$$X64 utilities4$$X64
+translator.depends += utilities4$$X64
+resprovider-7zip.depends += 7z$$X64 utilities4$$X64
+ScriptModule-LUA.depends += soui4$$X64 lua-54$$X64
+TaskLoop.depends += utilities4$$X64
+SIpcObject.depends += utilities4$$X64
+httpclient.depends += utilities4$$X64
