@@ -58,3 +58,5 @@ demos
 /build/
 /build64/
 /build64a/
+
+*.exe
