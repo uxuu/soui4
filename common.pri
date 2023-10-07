@@ -107,3 +107,7 @@ CONFIG(TOOLSET_XP){
 	QMAKE_TARGET_OS=xp
 }
 QMAKE_CXXFLAGS += /wd4100 /wd4101 /wd4102 /wd4189 /wd4996
+
+CONFIG(SPECTRE){
+	SpectreMitigation=Spectre
+}
