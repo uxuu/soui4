@@ -3,9 +3,6 @@
 ######################################################################
 TEMPLATE = lib
 TARGET = scintilla
-CONFIG(x64){
-TARGET = $$TARGET"64"
-}
 DEPENDPATH += .
 INCLUDEPATH += . \
 		   .\src \

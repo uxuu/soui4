@@ -1,8 +1,13 @@
 TEMPLATE = subdirs
 TARGET = third-part
+FIX=""
 CONFIG(x64){
-TARGET = $$TARGET"64"
+FIX="_x64"
 }
+CONFIG(arm64){
+FIX="_arm64"
+}
+TARGET = $$TARGET$$FIX
 DEPENDPATH += .
 INCLUDEPATH += .
 
@@ -17,6 +22,10 @@ SUBDIRS += 7z
 SUBDIRS += scintilla
 SUBDIRS += sqlite3
 SUBDIRS += jsoncpp
+CONFIG(arm64){
+    SUBDIRS -= mhook
+}
+
 CONFIG(c++11){
 
 }

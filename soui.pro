@@ -1,8 +1,13 @@
 TEMPLATE = subdirs
 TARGET = soui4
+FIX=""
 CONFIG(x64){
-TARGET = $$TARGET"64"
+FIX="_x64"
 }
+CONFIG(arm64){
+FIX="_arm64"
+}
+TARGET = $$TARGET$$FIX
 DEPENDPATH += .
 INCLUDEPATH += .
 
@@ -15,13 +20,6 @@ SUBDIRS += components
 SUBDIRS += demo
 SUBDIRS += demo2
 
-CONFIG(x64){
-soui.depends += utilities464 soui-sys-resource64
-demo.depends += soui464
-demo2.depends += soui464
-}
-else {
-soui.depends += utilities4 soui-sys-resource
-demo.depends += soui4
-demo2.depends += soui4
-}
+soui.depends += utilities4$$FIX soui-sys-resource$$FIX
+demo.depends += soui4$$FIX
+demo2.depends += soui4$$FIX

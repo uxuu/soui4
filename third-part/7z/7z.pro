@@ -4,9 +4,6 @@
 
 TEMPLATE = lib
 TARGET = 7z
-CONFIG(x64){
-TARGET = $$TARGET"64"
-}
 DEPENDPATH += .
 INCLUDEPATH += .
 
@@ -484,7 +481,12 @@ ASMS+=Asm/x86/7zCrcOpt.asm
 CONFIG(x64){
 ASMS+=Asm/x86/XzCrc64Opt.asm
 }
-
+CONFIG(arm64){
+	SOURCES+=C/7zCrcOpt.c
+	SOURCES+=C/AesOpt.c
+	ASMS-=Asm/x86/AesOpt.asm
+	ASMS-=Asm/x86/7zCrcOpt.asm
+}
 # asm
 asm.name = asm build
 asm.input = ASMS

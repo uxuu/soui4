@@ -4,9 +4,6 @@
 
 TEMPLATE = lib
 TARGET = TaskLoop
-CONFIG(x64){
-TARGET = $$TARGET"64"
-}
 !LIB_ALL:!COM_LIB{
 	RC_FILE += TaskLoop.rc
 	CONFIG += dll

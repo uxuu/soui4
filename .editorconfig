@@ -33,3 +33,12 @@ indent_style = tab
 [*.bat]
 charset = gbk
 end_of_line = crlf
+
+[SOUI.pro]
+end_of_line = crlf
+
+[utilities.pro]
+end_of_line = crlf
+
+[demo2.pro]
+end_of_line = crlf
