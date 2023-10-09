@@ -4,9 +4,6 @@
 
 TEMPLATE = lib
 TARGET = jsoncpp
-CONFIG(x64){
-TARGET = $$TARGET"64"
-}
 DEPENDPATH += .
 INCLUDEPATH += ./include
 

@@ -4,9 +4,6 @@
 
 TEMPLATE = lib
 TARGET = log4z
-CONFIG(x64){
-TARGET = $$TARGET"64"
-}
 !LIB_ALL:!COM_LIB{
 	RC_FILE += log4z.rc
 	CONFIG += dll

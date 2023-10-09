@@ -32,6 +32,7 @@ obj/
 [Bb]in
 [Bb]in64
 [Bb]in64a
+[Bb]in_*
 [Dd]ebug*/
 [Rr]elease*/
 [Cc]onfig/*.h
@@ -60,3 +61,5 @@ demos
 /build64a/
 
 *.exe
+
+/build-env.ps1

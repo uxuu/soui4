@@ -2,6 +2,18 @@ CONFIG -= qt
 CONFIG += stl_off  
 INCLUDEPATH += $$dir/config
 
+DESTDIR = $$dir/bin
+
+CONFIG(arm64){
+	TARGET = $$TARGET"_arm64"
+	DESTDIR = $$DESTDIR"_arm64"
+}
+
+CONFIG(x64){
+	TARGET = $$TARGET"_x64"
+	DESTDIR = $$DESTDIR"_x64"
+}
+
 !CONFIG(MBCS){
 	CharacterSet = 1
 }
@@ -12,27 +24,18 @@ else{
 
 CONFIG(debug, debug|release) {
 	OBJECTS_DIR =   $$dir/obj/debug/$$TARGET
-	DESTDIR = $$dir/bin
-	CONFIG(x64){
-		DESTDIR = $$DESTDIR"64"
-	}	
-	QMAKE_LIBDIR += $$DESTDIR
 }
 else {
 	OBJECTS_DIR =   $$dir/obj/release/$$TARGET
-	DESTDIR = $$dir/bin
-	CONFIG(x64){
-		DESTDIR = $$DESTDIR"64"
-	}
-	QMAKE_LIBDIR += $$DESTDIR
 }
-
+QMAKE_LIBDIR += $$DESTDIR
 #<--下面这段代码为debug和release生成不同的文件名
 defineReplace(souiLibraryTarget) {
   unset(LIBRARY_NAME)
    LIBRARY_NAME = $$1  
       !debug_and_release|build_pass {
-	LIBRARY_NAME~= s,64,,
+	LIBRARY_NAME~= s,_x64,,
+	LIBRARY_NAME~= s,_arm64,,
 	RET = $$LIBRARY_NAME
       }
  
@@ -58,6 +61,11 @@ CONFIG(x64){
 	DEFINES += _WIN64
 }
 else{
+	CONFIG(arm64){
+		QMAKE_LFLAGS += /MACHINE:ARM64
+		DEFINES -= WIN32
+		DEFINES += _WIN64
+	}
 	QMAKE_LFLAGS += /MACHINE:X86
 }
 

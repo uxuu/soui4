@@ -4,9 +4,6 @@
 
 TEMPLATE = app
 TARGET = demo
-CONFIG(x64){
-TARGET = $$TARGET"64"
-}
 DEPENDPATH += .
 INCLUDEPATH += . \
 			   ../utilities/include \
@@ -34,6 +31,9 @@ else{
 	LIBS += mhook.lib smiley.lib
 }
 
+CONFIG(arm64){
+    LIBS -= mhook.lib
+}
 
 PRECOMPILED_HEADER = stdafx.h
 

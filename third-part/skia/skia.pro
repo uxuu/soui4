@@ -14,9 +14,6 @@
 
 TEMPLATE = lib
 TARGET = skia
-CONFIG(x64){
-TARGET = $$TARGET"64"
-}
 CONFIG += staticlib
 
 INCLUDEPATH += . \
@@ -47,6 +44,9 @@ win32-msvc*{
     QMAKE_CXXFLAGS += /wd4244 /wd4800 /wd4100
 }
 
+win32-arm64-msvc*{
+    QMAKE_CXXFLAGS += /wd4244 /wd4800 /wd4100
+}
 # Input
 SOURCES += src\fonts\SkFontMgr_indirect.cpp
 SOURCES += src\fonts\SkGScalerContext.cpp
@@ -913,6 +913,7 @@ HEADERS += include\gpu\GrEffectUnitTest.h
 HEADERS += include\gpu\GrFontScaler.h
 HEADERS += include\gpu\GrGlyph.h
 HEADERS += include\gpu\GrGpuResource.h
+HEADERS += include\gpu\GrGpuResource.h
 HEADERS += include\gpu\GrPaint.h
 HEADERS += include\gpu\GrPathRendererChain.h
 HEADERS += include\gpu\GrRect.h
@@ -941,3 +942,26 @@ HEADERS += include\gpu\gl\SkANGLEGLContext.h
 HEADERS += src\images\bmpdecoderhelper.h
 HEADERS += src\images\SkScaledBitmapSampler.h
 HEADERS += src\images\transform_scanline.h
+
+
+CONFIG(arm64){
+    SOURCES -= src\opts\opts_check_x86.cpp
+    SOURCES -= src\opts\SkXfermode_opts_SSE2.cpp
+    SOURCES -= src\opts\SkBitmapFilter_opts_SSE2.cpp
+    SOURCES -= src\opts\SkBitmapProcState_opts_SSE2.cpp
+    SOURCES -= src\opts\SkBitmapProcState_opts_SSSE3.cpp
+    SOURCES -= src\opts\SkBlitRect_opts_SSE2.cpp
+    SOURCES -= src\opts\SkBlitRow_opts_SSE2.cpp
+    SOURCES -= src\opts\SkBlurImage_opts_SSE2.cpp
+    SOURCES -= src\opts\SkBlurImage_opts_SSE4.cpp
+    SOURCES -= src\opts\SkMorphology_opts_SSE2.cpp
+    SOURCES -= src\opts\SkUtils_opts_SSE2.cpp
+
+    SOURCES += src\opts\SkXfermode_opts_none.cpp
+    SOURCES += src\opts\SkBitmapProcState_opts_none.cpp
+    SOURCES += src\opts\SkBlitRow_opts_none.cpp
+    SOURCES += src\opts\SkBlurImage_opts_none.cpp
+    SOURCES += src\opts\SkMorphology_opts_none.cpp
+    SOURCES += src\opts\SkUtils_opts_none.cpp
+    SOURCES += src\opts\SkBlitMask_opts_none.cpp
+}

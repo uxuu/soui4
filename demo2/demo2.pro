@@ -4,15 +4,12 @@
 
 TEMPLATE = app
 TARGET = demo2
-CONFIG(x64){
-TARGET = $$TARGET"64"
-}
 DEPENDPATH += .
 INCLUDEPATH += . \
 			   ../utilities/include \
 			   ../soui/include \
 			   ../components
-			   
+
 dir = ..
 include($$dir/common.pri)
 

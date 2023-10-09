@@ -4,9 +4,6 @@
 
 TEMPLATE = lib
 TARGET = sqlite3
-CONFIG(x64){
-TARGET = $$TARGET"64"
-}
 DEPENDPATH += .
 INCLUDEPATH += . \
 
