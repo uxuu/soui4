@@ -4,9 +4,6 @@
 
 TEMPLATE = lib
 TARGET = soui-sys-resource2
-CONFIG(x64){
-TARGET = $$TARGET"64"
-}
 CONFIG += dll
 
 dir = ..

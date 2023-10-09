@@ -4,9 +4,6 @@
 
 TEMPLATE = lib
 TARGET = SIpcObject
-CONFIG(x64){
-TARGET = $$TARGET"64"
-}
 !LIB_ALL:!COM_LIB{
 	RC_FILE += SIpcObject.rc
 	CONFIG += dll

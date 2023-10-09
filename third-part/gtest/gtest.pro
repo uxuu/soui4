@@ -4,9 +4,6 @@
 
 TEMPLATE = lib
 TARGET = gtest
-CONFIG(x64){
-TARGET = $$TARGET"64"
-}
 DEPENDPATH += . src
 INCLUDEPATH += ./include
 
