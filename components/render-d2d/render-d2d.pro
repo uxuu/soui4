@@ -4,9 +4,6 @@
 
 TEMPLATE = lib
 TARGET = render-d2d
-CONFIG(x64){
-TARGET = $$TARGET"64"
-}
 !LIB_ALL:!COM_LIB{
 	RC_FILE += render-d2d.rc
 	CONFIG += dll

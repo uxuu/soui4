@@ -109,8 +109,15 @@ if($cmake)
     if(-Not($arch -eq "x86"))
     {
         $cfg = "$cfg $arch"
-        $sln = "soui464.sln"
+        $sln = "soui4_$arch.sln"
     }
-    cmd /c "call ""$vspath\VC\Auxiliary\Build\vcvarsall.bat"" $arch & .\tools\qmake515.exe -tp vc -r -spec "".\tools\mkspecs\win32-msvc$vsversion"" ""CONFIG += $cfg"""
+	$mkspec = ".\tools\mkspecs\win32-msvc$vsversion"
+	if($arch -eq "arm64")
+	{
+		$mkspec = ".\tools\mkspecs\win32-arm64-msvc$vsversion"
+		$arch = "x64_$arch"
+	}
+
+    cmd /c "call ""$vspath\VC\Auxiliary\Build\vcvarsall.bat"" $arch & .\tools\qmake515.exe -tp vc -r -spec ""$mkspec"" ""CONFIG += $cfg"""
     msbuild "$sln" /maxcpucount /t:$target /p:Configuration=$config  /fl /v:m
 }

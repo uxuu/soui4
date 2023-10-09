@@ -1,8 +1,13 @@
 TEMPLATE = subdirs
 TARGET = components
+FIX=""
 CONFIG(x64){
-TARGET = $$TARGET"64"
+FIX="_x64"
 }
+CONFIG(arm64){
+FIX="_arm64"
+}
+TARGET = $$TARGET$$FIX
 DEPENDPATH += .
 INCLUDEPATH += .
 
@@ -22,27 +27,14 @@ SUBDIRS += TaskLoop
 SUBDIRS += SIpcObject
 SUBDIRS += httpclient
 
-CONFIG(x64){
-imgdecoder-png.depends += zlib64 png64
-render-skia.depends += skia64
-render-d2d.depends += utilities464
-resprovider-zip.depends += zlib64 utilities464
-translator.depends += utilities464
-resprovider-7zip.depends += 7z64 utilities464
-ScriptModule-LUA.depends += soui464 lua-5464
-TaskLoop.depends += utilities464
-SIpcObject.depends += utilities464
-httpclient.depends += utilities464
-}
-else {
-imgdecoder-png.depends += zlib png
-render-skia.depends += skia
-render-d2d.depends += utilities4
-resprovider-zip.depends += zlib utilities4
-translator.depends += utilities4
-resprovider-7zip.depends += 7z utilities4
-ScriptModule-LUA.depends += soui4 lua-54
-TaskLoop.depends += utilities4
-SIpcObject.depends += utilities4
-httpclient.depends += utilities4
-}
+
+imgdecoder-png.depends += zlib$$FIX png$$FIX
+render-skia.depends += skia$$FIX
+render-d2d.depends += utilities4$$FIX
+resprovider-zip.depends += zlib$$FIX utilities4$$FIX
+translator.depends += utilities4$$FIX
+resprovider-7zip.depends += 7z$$FIX utilities4$$FIX
+ScriptModule-LUA.depends += soui4$$FIX lua-54$$FIX
+TaskLoop.depends += utilities4$$FIX
+SIpcObject.depends += utilities4$$FIX
+httpclient.depends += utilities4$$FIX
