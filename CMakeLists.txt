@@ -56,6 +56,9 @@ option(ENABLE_SOUI_COM_LIB "Enable compile 'components' as static lib" OFF)
 #
 #
 option(XP_TOOLSET "" ON)
+#
+#
+option(USE_QSPECTRE "" ON)
 
 config_compiler_and_linker()
 
