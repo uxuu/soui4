@@ -32,7 +32,7 @@ obj/
 [Bb]in
 [Bb]in64
 [Bb]in64a
-[Bb]in_*
+[Bb]in-*
 [Dd]ebug*/
 [Rr]elease*/
 [Cc]onfig/*.h
@@ -59,6 +59,7 @@ demos
 /build/
 /build64/
 /build64a/
+/build-*/
 
 *.exe
 
