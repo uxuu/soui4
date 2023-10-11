@@ -114,13 +114,13 @@ if($cmake)
         $cfg = "$cfg LIB_CORE"
     }
 
-    if(-Not(Test-Path "./tools/qmake515.exe" ))
-    {
-        Push-Location "./tools/src/qmake"
-        nmake
-        Pop-Location
-        Copy-Item -Path "./tools/src/qmake/qmake.exe" -Destination "./tools/qmake515.exe"
-    }
+    #if(-Not(Test-Path "./tools/qmake515.exe" ))
+    #{
+    #    Push-Location "./tools/src/qmake"
+    #    nmake
+    #    Pop-Location
+    #    Copy-Item -Path "./tools/src/qmake/qmake.exe" -Destination "./tools/qmake515.exe"
+    #}
     if($SOUI_XP -eq 1)
     {
         $cfg = "$cfg TOOLSET_XP"
@@ -145,7 +145,7 @@ if($cmake)
     if(-Not($arch -eq "x86"))
     {
         $cfg = "$cfg $arch"
-        $sln = "soui4_$arch.sln"
+        $sln = "soui4-$arch.sln"
     }
 	$mkspec = ".\tools\mkspecs\win32-msvc$vsversion"
 	if($arch -eq "arm64")
@@ -154,6 +154,6 @@ if($cmake)
 		$arch = "x64_$arch"
 	}
 
-    cmd /c "call ""$vspath\VC\Auxiliary\Build\vcvarsall.bat"" $arch & .\tools\qmake515.exe -tp vc -r -spec ""$mkspec"" ""CONFIG += $cfg"""
+    cmd /c "call ""$vspath\VC\Auxiliary\Build\vcvarsall.bat"" $arch & .\tools\qmake2017.exe -tp vc -r -spec ""$mkspec"" ""CONFIG += $cfg"""
     msbuild "$sln" /maxcpucount /t:$target /p:Configuration=$config  /fl /v:m
 }
