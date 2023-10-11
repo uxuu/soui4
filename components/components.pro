@@ -2,10 +2,10 @@ TEMPLATE = subdirs
 TARGET = components
 FIX=""
 CONFIG(x64){
-FIX="_x64"
+FIX="-x64"
 }
 CONFIG(arm64){
-FIX="_arm64"
+FIX="-arm64"
 }
 TARGET = $$TARGET$$FIX
 DEPENDPATH += .

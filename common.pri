@@ -5,13 +5,13 @@ INCLUDEPATH += $$dir/config
 DESTDIR = $$dir/bin
 
 CONFIG(arm64){
-	TARGET = $$TARGET"_arm64"
-	DESTDIR = $$DESTDIR"_arm64"
+	TARGET = $$TARGET"-arm64"
+	DESTDIR = $$DESTDIR"-arm64"
 }
 
 CONFIG(x64){
-	TARGET = $$TARGET"_x64"
-	DESTDIR = $$DESTDIR"_x64"
+	TARGET = $$TARGET"-x64"
+	DESTDIR = $$DESTDIR"-x64"
 }
 
 !CONFIG(MBCS){
@@ -34,8 +34,8 @@ defineReplace(souiLibraryTarget) {
   unset(LIBRARY_NAME)
    LIBRARY_NAME = $$1  
       !debug_and_release|build_pass {
-	LIBRARY_NAME~= s,_x64,,
-	LIBRARY_NAME~= s,_arm64,,
+	LIBRARY_NAME~= s,-x64,,
+	LIBRARY_NAME~= s,-arm64,,
 	RET = $$LIBRARY_NAME
       }
  

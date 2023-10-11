@@ -26,7 +26,7 @@ SET vsvarbat=
 SET dynamicsoui=1
 
 rem 选择编译版本
-SET /p selected=1.选择编译版本[1=x86;2=x64;3=x86+x64]:
+SET /p selected=1.选择编译版本[1=x86;2=x64;3=x86+x64;4=arm64]:
 if %selected%==1 (
 	SET target=x86
 ) else if %selected%==2 (
@@ -35,12 +35,17 @@ if %selected%==1 (
 ) else if %selected%==3 (
 	SET target=x86
 	SET targetx86andx64=1
+) else if %selected%==4 (
+	SET target=x64_arm64
+	SET cfg=!cfg! arm64
 ) else (
 	goto error
 )
 
 rem 选择开发环境
 SET /p selected=2.选择开发环境[1=2005;2=2008;3=2010;4=2012;5=2013;6=2015;7=2017;8=2019;9=2022]:
+if %target%==x64_arm64 if %selected% leq 6 goto error
+if %selected% gtr 9 goto error
 
 for /f "skip=2 delims=: tokens=1,*" %%i in ('%windir%\system32\reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion" /v "ProgramFilesDir (x86)"') do ( 
 	set str=%%i
@@ -114,7 +119,7 @@ if %selected%==1 (
 		rem call "!value!" %target%
 		goto toolsetxp
 ) else if %selected%==8 (		 
-	  SET specs=win32-msvc2017
+	  SET specs=win32-msvc2019
 	  SET vs2019path=!vs2019path!\VC\Auxiliary\Build\vcvarsall.bat
 	  ECHO Vs2019 path is:!vs2019path! 
 		SET vsvarbat="!vs2019path!"
@@ -122,7 +127,7 @@ if %selected%==1 (
 		rem call "!value!" %target%
 		goto toolsetxp
 )else if %selected%==9 (		 
-	  SET specs=win32-msvc2017
+	  SET specs=win32-msvc2022
 	  SET vs2022path=!vs2019path!\VC\Auxiliary\Build\vcvarsall.bat
 	  ECHO Vs2022 path is:!vs2022path! 
 		SET vsvarbat="!vs2022path!"
@@ -239,13 +244,14 @@ if %dynamicsoui%==1 (
 )
 rem 参数配置完成
 
-if %specs%==win32-msvc2017 (	
-	tools\qmake2017 -tp vc -r -spec .\tools\mkspecs\%specs% "CONFIG += %cfg%"
+if %specs% geq win32-msvc2017 (
+	if %target%==x64_arm64 set specs=%specs:win32=win32-arm64%
+	tools\qmake2017 -tp vc -r -spec .\tools\mkspecs\!specs! "CONFIG += %cfg%"
 	if %targetx86andx64%==1 (
 		call !vsvarbat! x64
 		SET cfg=!cfg! x64
 		cd /d %~dp0
-		tools\qmake2017 -tp vc -r -spec .\tools\mkspecs\%specs% "CONFIG += !cfg!"
+		tools\qmake2017 -tp vc -r -spec .\tools\mkspecs\!specs! "CONFIG += !cfg!"
 	)
 	if %supportxp%==1 (
 		tools\ConvertPlatformToXp -f souiprosubdir.xml
@@ -264,11 +270,13 @@ SET /p selected=open[o], compile[c] "soui4.sln" or quit(q) [o,c or q]?
 if "%selected%" == "o" (
 	if %targetx86andx64%==1 (
 		soui4.sln
-		soui464.sln
+		soui4-x64.sln
 	) else if "%target%"=="x86" (
 		soui4.sln
+	) else if "%target%"=="x64" (
+		soui4-x64.sln
 	) else (
-		soui464.sln
+		soui4-arm64.sln
 	)
 ) else if "%selected%" == "c" (
 		if %targetx86andx64%==1 (
@@ -278,20 +286,25 @@ if "%selected%" == "o" (
 			call devenv soui4.sln /Clean Release
 			call devenv soui4.sln /build Release
 			call !vsvarbat! x64
-			call devenv soui464.sln /Clean Debug
-			call devenv soui464.sln /build Debug
-			call devenv soui464.sln /Clean Release
-			call devenv soui464.sln /build Release
+			call devenv soui4-x64.sln /Clean Debug
+			call devenv soui4-x64.sln /build Debug
+			call devenv soui4-x64.sln /Clean Release
+			call devenv soui4-x64.sln /build Release
 		) else if "%target%"=="x86" (			
 			call devenv soui4.sln /Clean Debug
 			call devenv soui4.sln /build Debug
 			call devenv soui4.sln /Clean Release
 			call devenv soui4.sln /build Release
 		) else if "%target%"=="x64" (
-		call devenv soui464.sln /Clean Debug
-		call devenv soui464.sln /build Debug
-		call devenv soui464.sln /Clean Release
-		call devenv soui464.sln /build Release
+			call devenv soui4-x64.sln /Clean Debug
+			call devenv soui4-x64.sln /build Debug
+			call devenv soui4-x64.sln /Clean Release
+			call devenv soui4-x64.sln /build Release
+		) else (
+			call devenv soui4-arm64.sln /Clean Debug
+			call devenv soui4-arm64.sln /build Debug
+			call devenv soui4-arm64.sln /Clean Release
+			call devenv soui4-arm64.sln /build Release
 		)
 ) else (
 	goto final
