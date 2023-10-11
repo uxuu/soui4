@@ -38,7 +38,7 @@ else{
 }
 
 CONFIG(arm64){
-    LIBS -= mhook.lib
+    LIBS -= mhook.lib mhookd.lib
 }
 
 PRECOMPILED_HEADER = stdafx.h
