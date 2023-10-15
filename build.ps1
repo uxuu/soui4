@@ -1,8 +1,9 @@
-#powershell -ExecutionPolicy bypass -File build.ps1
+#powershell -ExecutionPolicy bypass -File build.ps1 -vsversion 2022 -arch x64
 param ([string] $arch="x64",
     [string] $workdir,
     [string] $target="build",
     [string] $config="release",
+    [string] $vsversion="2019",
     [switch] $cmake)
 
 #SOUI编译模式[1=全模块DLL;2=全模块LIB;3=内核LIB,组件DLL(不能使用LUA脚本模块)]
@@ -30,14 +31,27 @@ if (-Not($allowed_arch.Contains($arch)))
     exit 1
 }
 
+if($vsversion -eq 2017)
+{
+    $vsline = 15
+}
+if($vsversion -eq 2019)
+{
+    $vsline = 16
+}
+if($vsversion -eq 2022)
+{
+    $vsline = 17
+}
+
 $vswhere="${env:ProgramFiles(x86)}\microsoft visual studio\installer\vswhere.exe"
-$vspath=&"$vswhere" -nologo -products Microsoft.VisualStudio.Product.BuildTools -property installationPath -format value
-$instanceId=&"$vswhere" -nologo -products Microsoft.VisualStudio.Product.BuildTools -property instanceId -format value
-$vsversion=&"$vswhere" -nologo -products Microsoft.VisualStudio.Product.BuildTools -property catalog_productLineVersion -format value
+$vspath=&"$vswhere" -nologo -products Microsoft.VisualStudio.Product.BuildTools -version "$vsline,$($vsline+1)" -property installationPath -format value
+$instanceId=&"$vswhere" -nologo -products Microsoft.VisualStudio.Product.BuildTools -version "$vsline,$($vsline+1)" -property instanceId -format value
+#$vsversion=&"$vswhere" -nologo -products Microsoft.VisualStudio.Product.BuildTools -version "$vsline,$($vsline+1)" -property catalog_productLineVersion -format value
 
 if(-Not($vspath)) {
-    $vspath=&"$vswhere" -nologo -property installationPath -format value
-    $instanceId=& "$vswhere" -nologo -property instanceId -format value
+    $vspath=&"$vswhere" -nologo -version "$vsline,$($vsline+1)" -property installationPath -format value
+    $instanceId=&"$vswhere" -nologo -version "$vsline,$($vsline+1)" -property instanceId -format value
 }
 
 Write-Host "vspath=$vspath"
@@ -47,9 +61,9 @@ Import-Module "$vspath\Common7\Tools\Microsoft.VisualStudio.DevShell.dll"
 
 if($cmake)
 {
-    $vsname=&"$vswhere" -nologo -products Microsoft.VisualStudio.Product.BuildTools -property catalog_productName -format value
-    $vsline=&"$vswhere" -nologo -products Microsoft.VisualStudio.Product.BuildTools -property catalog_productLine -format value
-    $vsline=$vsline -replace "Dev"
+    $vsname=&"$vswhere" -nologo -products Microsoft.VisualStudio.Product.BuildTools -version "$vsline,$($vsline+1)" -property catalog_productName -format value
+    #$vsline=&"$vswhere" -nologo -products Microsoft.VisualStudio.Product.BuildTools -version "$vsline,$($vsline+1)" -property catalog_productLine -format value
+    #$vsline=$vsline -replace "Dev"
     if(-Not($workdir))
     {
         $workdir="build-$arch"
