@@ -19,7 +19,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 #
 if (OUTPATH_WITHOUT_TYPE)
     if (CMAKE_CL_64)
-        if("${CMAKE_GENERATOR_PLATFORM}" MATCHES "ARM64")
+        if("${CMAKE_GENERATOR_PLATFORM}" MATCHES "ARM64|arm64")
             message("---Put All generation in same Path(bin-arm64)")
             set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/bin-arm64)
             set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/bin-arm64)
