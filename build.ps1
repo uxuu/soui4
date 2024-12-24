@@ -58,7 +58,7 @@ Write-Host "vspath=$vspath"
 
 Import-Module "$vspath\Common7\Tools\Microsoft.VisualStudio.DevShell.dll"
 &Enter-VsDevShell -SkipAutomaticLocation $instanceId
-
+$cfg = @()
 if($cmake)
 {
     $vsname=&"$vswhere" -nologo -products Microsoft.VisualStudio.Product.BuildTools -version "$vsline,$($vsline+1)" -property catalog_productName -format value
@@ -70,30 +70,30 @@ if($cmake)
     }
     if($SOUI_XP -eq 2)
     {
-        $cfg = "$cfg -DXP_TOOLSET=OFF"
+        $cfg += "-DXP_TOOLSET=OFF"
     }
     if($SOUI_UNICODE -eq 2)
     {
-        $cfg = "$cfg -DUSE_UNICODE=OFF"
+        $cfg += "-DUSE_UNICODE=OFF"
     }
     if($SOUI_WCHAR -eq 2)
     {
-        $cfg = "$cfg -DWCHAR_AS_DEFAULT=OFF"
+        $cfg += "-DWCHAR_AS_DEFAULT=OFF"
     }
     if($SOUI_MT -eq 1)
     {
-        $cfg = "$cfg -DSHARED_CRT=OFF"
+        $cfg += "-DSHARED_CRT=OFF"
     }
     if($SOUI_DYNAMIC -eq 1)
     {
-        $cfg = "$cfg -DENABLE_SOUI_COM_LIB=OFF"
-        $cfg = "$cfg -DENABLE_SOUI_CORE_LIB=OFF"
+        $cfg += "-DENABLE_SOUI_COM_LIB=OFF"
+        $cfg += "-DENABLE_SOUI_CORE_LIB=OFF"
     } elseif($SOUI_DYNAMIC -eq 2) {
-        $cfg = "$cfg -DENABLE_SOUI_COM_LIB=ON"
-        $cfg = "$cfg -DENABLE_SOUI_CORE_LIB=ON"
+        $cfg += "-DENABLE_SOUI_COM_LIB=ON"
+        $cfg += "-DENABLE_SOUI_CORE_LIB=ON"
     } elseif($SOUI_DYNAMIC -eq 3) {
-        $cfg = "$cfg -DENABLE_SOUI_COM_LIB=OFF"
-        $cfg = "$cfg -DENABLE_SOUI_CORE_LIB=ON"
+        $cfg += "-DENABLE_SOUI_COM_LIB=OFF"
+        $cfg += "-DENABLE_SOUI_CORE_LIB=ON"
     }
 
     if($arch -eq "x86")
@@ -104,7 +104,7 @@ if($cmake)
     {
         $arch="ARM64"
     }
-    cmake -S . -B $cfg -DUSE_QSPECTRE=ON $workdir -G "$vsname $vsline $vsversion" -A $arch
+    cmake -S . -B $workdir $cfg -DUSE_QSPECTRE=ON -G "$vsname $vsline $vsversion" -A $arch
     cmake --build $workdir --config $config -j $ENV:NUMBER_OF_PROCESSORS
 } else {
     Set-Content -Path "./config/build.cfg" -Value "[BuiltConfig]"
