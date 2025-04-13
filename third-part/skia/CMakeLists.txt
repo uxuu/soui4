@@ -946,6 +946,18 @@ else()
 endif()
 #message("...........plat....${CMAKE_GENERATOR_PLATFORM}")
 if(("${CMAKE_GENERATOR_PLATFORM}" MATCHES "ARM64") OR (CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64") OR (CMAKE_SYSTEM_PROCESSOR MATCHES "arm"))
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(srcs
+        ${srcs}
+        "src/opts/SkXfermode_opts_none.cpp"
+        "src/opts/SkBitmapProcState_opts_none.cpp"
+        "src/opts/SkBlitRow_opts_none.cpp"
+        "src/opts/SkBlurImage_opts_none.cpp"
+        "src/opts/SkMorphology_opts_none.cpp"
+        "src/opts/SkUtils_opts_none.cpp"
+        "src/opts/SkBlitMask_opts_none.cpp"
+    )
+else()
 set(srcs
     ${srcs}
     "src/opts/memset.arm.S"
@@ -967,14 +979,8 @@ set(srcs
     "src/opts/SkUtils_opts_arm.cpp"
     "src/opts/SkXfermode_opts_arm_neon.cpp"
     "src/opts/SkXfermode_opts_arm.cpp"
-#    "src/opts/SkXfermode_opts_none.cpp"
-#    "src/opts/SkBitmapProcState_opts_none.cpp"
-#    "src/opts/SkBlitRow_opts_none.cpp"
-#    "src/opts/SkBlurImage_opts_none.cpp"
-#    "src/opts/SkMorphology_opts_none.cpp"
-#    "src/opts/SkUtils_opts_none.cpp"
-#    "src/opts/SkBlitMask_opts_none.cpp"
 )
+endif()
 else()
 set(srcs
     ${srcs}
